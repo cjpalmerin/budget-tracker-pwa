@@ -1,10 +1,10 @@
 let db;
 // create a new db request for a "budget" database.
-const request = indexedDB.open("budget", 2);
+const request = indexedDB.open("budget", 4);
 
 request.onupgradeneeded = function(event) {
    // create object store called "pending" and set autoIncrement to true
-  const db = event.target.result;
+  let db = event.target.result;
   db.createObjectStore("pending", { autoIncrement: true });
 };
 
@@ -42,7 +42,7 @@ function checkDatabase() {
 
   getAll.onsuccess = function() {
     if (getAll.result.length > 0) {
-      fetch("/api/transaction/bulk", {
+      fetch("/api/transaction", {
         method: "POST",
         body: JSON.stringify(getAll.result),
         headers: {
